@@ -18,7 +18,7 @@ docker-compose -f "$DOCKER_COMPOSE_FILE" up -d
 
 # 等待服务启动并验证
 echo "等待 Grafana 启动并加载配置..."
-sleep 10  # 增加等待时间，确保 Grafana 完全启动并加载配置
+sleep 20  # 增加等待时间，确保 Grafana 完全启动并加载配置
 curl -s "$GRAFANA_URL/api/health" >/dev/null || { echo "Grafana 未启动"; exit 1; }
 curl -s "$GRAFANA_URL/api/datasources" -u admin:admin123 | grep -q "mini-gateway-Prometheus" && echo "数据源已加载" || echo "数据源加载失败"
 curl -s "$GRAFANA_URL/api/dashboards/uid/gateway-monitoring" -u admin:admin123 | grep -q "gateway-monitoring" && echo "Dashboard 已加载" || echo "Dashboard 加载失败"

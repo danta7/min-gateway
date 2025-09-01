@@ -50,6 +50,7 @@ func (p *HTTPConnectionPool) initializePool(cfg *config.Config) {
 				logger.Error("Invalid target address detected",
 					zap.String("target", rule.Target),
 					zap.Error(err))
+				// 在并发场景下线程安全
 			} else if _, loaded := p.clients.LoadOrStore(host, p.newHostClient(host)); !loaded {
 				initializedCount++
 				logger.Info("Initialized HostClient for target",
